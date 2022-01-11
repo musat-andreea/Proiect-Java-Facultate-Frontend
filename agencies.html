@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+
+    <script src="js/scripts.js"></script>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <title>Title</title>
+</head>
+<body>
+<!-- Dropdown Structure -->
+<ul id="dropdown1" class="dropdown-content">
+    <li><a href="events.html">Prezentare Agentii</a></li>
+    <li><a href="agencies.html">Administrare Agentii</a></li>
+    <li class="divider"></li>
+    <li><a href="models.html">Galerie Fotomodele</a></li>
+</ul>
+<nav>
+    <div class="nav-wrapper">
+        <a href="/" class="brand-logo">Romanian Models Co.</a>
+        <ul class="right hide-on-med-and-down">
+
+            <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Administrare</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+<div class="container">
+    <!-- Page Content goes here -->
+    <div class="row">
+        <div class = "col s12">
+            <center><H1> Administrare agentii </H1></center>
+        </div>
+    </div>
+    <div class = "row">
+        <div class = "col s12">
+            <h2> Lista agentii: </h2>
+        </div>
+        <table class = "highlight">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nume agentie</th>
+                <th>Actiuni</th>
+            </tr>
+            </thead>
+
+            <tbody id = "agencies-table-content">
+
+            </tbody>
+        </table>
+    </div>
+    <div class = "col s12">
+        <h2> Adauga evenimente </h2>
+        <form method = "POST" id = "add_event">
+            <input type = "number" placeholder="ID Agentie" id = "id_agency"></input>
+            <input type = "text" placeholder="Nume eveniment" id = "event_name"></input>
+            <input type = "date" placeholder="Data eveniment" id = "event_date"></input>
+            <input type = "submit" id = "add_event_submit_btn" class = "btn waves-effect waves-light" value = "Adauga">
+        </form>
+    </div>
+
+    <div class = "col s12">
+        <h3 id = "nume-agency"> Evenimente </h3>
+        <table class = "highlight" id = "events">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nume eveniment</th>
+                <th>Actiuni</th>
+            </tr>
+            </thead>
+
+            <tbody id = "events-table-content">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="container">
+    <div class = "col s12">
+        <h2> Inregistreaza model </h2>
+        <form method = "POST" id = "add_model">
+            <input type = "number" placeholder="ID Event" id = "id_event"></input>
+            <input type = "text" placeholder="Nume Model" id = "model_name"></input>
+            <input type = "text" placeholder="Prenume Model" id = "model_prename"></input>
+            <input type = "text" placeholder="Greutatea" id = "model_weight"></input>
+            <input type = "text" placeholder="Inaltimea" id = "model_height"></input>
+            <input type = "text" placeholder="Anul nasterii" id = "model_birth"></input>
+            <input type = "submit" id = "add_model_submit_btn" class = "btn waves-effect waves-light" value = "Inregistreaza Model">
+        </form>
+    </div>
+
+    <div class = "col s12">
+        <h3 id = "models-title"> Modele </h3>
+        <table class = "highlight" id = "models">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nume model</th>
+                <th>Prenume model</th>
+                <th>Inaltime model</th>
+                <th>Greutate model</th>
+                <th>Data Nasterii model</th>
+                <th>Actiuni</th>
+            </tr>
+            </thead>
+
+            <tbody id = "models-table-content">
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class = "col s12">
+        <h2> Corecteaza greutatea modelului </h2>
+        <form method = "POST" id = "update_weight_value">
+            <input type = "text" placeholder="ID Model" id = "up1_model_medie_id"></input>
+            <input type = "text" placeholder="Greutatea" id = "up_model_weight"></input>
+            <input type = "submit" id = "update_weight" class = "btn waves-effect waves-light" value = "Corecteaza greutatea">
+        </form>
+    </div>
+
+    <div class = "col s12">
+        <h2> Corecteaza inaltimea modelului </h2>
+        <form method = "POST" id = "update_height_value">
+            <input type = "text" placeholder="ID Model" id = "up2_model_medie_id"></input>
+            <input type = "text" placeholder="Inaltimea" id = "up_model_height"></input>
+            <input type = "submit" id = "update_height" class = "btn waves-effect waves-light" value = "Corecteaza inaltimea">
+        </form>
+    </div>
+    <br />
+    <br />
+</div>
+
+
+
+
+<footer>
+    <script type = "text/javascript">
+        $.ajaxSetup({
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true
+        });
+        $.ajax({
+            url: "http://localhost:8080/agencies",
+            type: 'GET',
+            dataType: 'json',
+            success: function(res) {
+                str = "";
+                for (i in res)
+                {
+                    j = parseInt(i) + 1;
+
+                    str = str + "<tr>";
+                    str = str + "<td>" + j + "</td>";
+                    str = str + "<td>" + res[i].name + "</td>";
+                    jstr = "test";
+                    str = str + "<td>" + "<button class = 'list-events btn waves-effect' onclick = listEvents(" + j+ ")> Listeaza evenimente </button>"
+                        + "<button class = 'btn waves-effect' onclick = deleteAgency(" + j+ ")> Sterge agentie </button>"+ "</td>";
+                    str = str + "</tr>";
+                }
+                $("#agencies-table-content").html(str);
+            }
+        });
+
+        $( "#add_event" ).submit(function( ev ) {
+            alert( $("#event_name").val() );
+            ev.preventDefault();
+
+            $.post( "http://localhost:8080/addEvent", JSON.stringify({ event_name: $("#event_name").val(), event_date:"2019-01-01"}))
+                .done(function (res) {
+                    $.get( "http://localhost:8080/getEventId/" + $("#event_name").val() )
+                        .done(function( data ) {
+                            $.post("http://localhost:8080/addEventToAgency", JSON.stringify({eventId: parseInt(data), agencyId: $("#id_agency").val()}))
+                                .done(function (data) {
+                                    alert(data);
+                                    }
+                                );
+                        });
+                });
+
+        });
+        $( "#add_model" ).submit(function( event ) {
+            event.preventDefault();
+
+            $.post( "http://localhost:8080/addModel", JSON.stringify({ nume: $("#model_name").val(),
+                prenume: $("#model_prename").val(),
+                height: $("#model_height").val(),
+                weight: $("#model_weight").val(),
+                birthday: $("#model_birth").val(),
+                }
+            ))
+                .done(function (res) {
+                    $.get( "http://localhost:8080/getModelId/" + $("#model_name").val() )
+                        .done(function( data ) {
+                            $.post("http://localhost:8080/enrollModel", JSON.stringify({modelId: parseInt(data), eventId: $("#id_event").val()}))
+                                .done(function (data) {
+                                        alert(data);
+                                    }
+                                );
+                        });
+                });
+
+        });
+
+        function listEvents(id)
+        {
+            $.get("http://localhost:8080/agencyEvents/" + id)
+                .done(function(res)
+                {
+                    str = "";
+                    for (i in res)
+                    {
+                        var j = 0;
+
+                        $.ajax({
+                            url: "http://localhost:8080/getEventId/" + res[i].event_name,
+                            type: 'GET',
+                            dataType: 'json',
+                            async: false,
+                            success: function(res) {
+                                j = parseInt(res);
+                            }
+                        });
+                        str = str + "<tr>";
+                        str = str + "<td>" + j + "</td>";
+                        str = str + "<td>" + res[i].event_name + "</td>";
+                        str = str + "<td>" + "<button class = 'list-events btn waves-effect' onclick = listModels(" + j+ ")> Listeaza Modele </button>"
+                            + "<button class = 'btn waves-effect' onclick = deleteEvent(" + j+ ")> Sterge evenimentul </button>"+ "</td>";
+                            "</td>";
+                        str = str + "</tr>";
+                    }
+
+                    $("#events-table-content").html(str);
+                    $([document.documentElement, document.body]).animate({
+                        scrollTop: $("#events").offset().top
+                    }, 2000);
+                });
+        }
+
+        function deleteEvent(id)
+        {
+            $.post("http://localhost:8080/delEvent/" + id)
+                .done(function(res)
+                {
+                    alert("Event" + id + " deleted");
+                });
+        }
+
+        function listModels(id)
+        {
+            $.get("http://localhost:8080/getEventModels/" + id)
+                .done(function(res)
+                {
+                    str = "";
+                    for (i in res)
+                    {
+
+                        var j = 0;
+
+                        $.ajax({
+                            url: "http://localhost:8080/getModelId/" + res[i].nume,
+                            type: 'GET',
+                            dataType: 'json',
+                            async: false,
+                            success: function(res) {
+                                j = parseInt(res);
+                            }
+                        });
+
+                        console.log(res[i]);
+                        str = str + "<tr>";
+                        str = str + "<td>" + j + "</td>";
+                        str = str + "<td>" + res[i].nume + "</td>";
+                        str = str + "<td>" + res[i].prenume + "</td>";
+                        str = str + "<td>" + res[i].height + "</td>";
+                        str = str + "<td>" + res[i].weight + "</td>";
+                        str = str + "<td>" + res[i].birthday + "</td>";
+                        str = str + "<td>" + "<button class = 'list-events btn waves-effect' onclick = editModel(" + j+ ")> Editeaza  </button>"
+                            + "<button class = 'btn waves-effect' onclick = deleteModel(" + j+ ")> Sterge modelul </button>"+ "</td>";
+                        "</td>";
+                        str = str + "</tr>";
+                    }
+
+                    $("#models-table-content").html(str);
+                    $([document.documentElement, document.body]).animate({
+                        scrollTop: $("#models").offset().top
+                    }, 2000);
+                });
+        }
+
+        function deleteModel(id)
+        {
+            $.post("http://localhost:8080/delModel/" + id)
+                .done(function(res)
+                {
+                    alert("MODEL " + id + " deleted");
+                    location.reload();
+                });
+        }
+
+        function deleteAgency(id)
+        {
+            $.post("http://localhost:8080/delAgency/" + id)
+                .done(function(res)
+                {
+                    alert("Agency " + id + " deleted");
+                });
+        }
+
+        $( "#update_height_value" ).submit(function( event ) {
+            event.preventDefault();
+
+            $.post( "http://localhost:8080/updateHeight",
+                JSON.stringify({ modelId: parseInt($("#up2_model_medie_id").val()), height:parseFloat($("#up_model_height").val())}))
+                .done(function (res) {
+                    alert(res);
+                });
+
+        });
+        $( "#update_weight_value" ).submit(function( event ) {
+            event.preventDefault();
+
+            $.post( "http://localhost:8080/updateWeight",
+                JSON.stringify({ modelId: parseInt($("#up1_model_medie_id").val()), weight:parseFloat($("#up_model_weight").val())}))
+                .done(function (res) {
+                    alert(res);
+                });
+
+        });
+
+
+    </script>
+</footer>
+</body>
+</html>
